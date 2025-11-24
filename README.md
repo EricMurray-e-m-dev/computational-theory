@@ -52,7 +52,11 @@ Using a generation function to provide message padding according to SHA-256 spec
 
 ### Problem 4: Hashes
 
-[To be completed]
+Implementation of SHA-256 hash computation using the compression function.  
+- Initial hash values derived from square roots of first 8 primes
+- Message schedule expansion (512 bits → 64 words)
+- Compression function (64 rounds using Problem 1 functions and Problem 2 K constants)
+- Main `hash(current, block)` function processing message blocks
 
 ### Problem 5: Passwords
 
