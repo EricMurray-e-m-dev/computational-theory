@@ -1,66 +1,83 @@
 # Computational Theory - SHA-256 Implementation
 
 ## Overview
-
-This repository contains implementations of SHA-256 functions in Python.  
-The assessment is divided into 5 different problems covering logical functions, mathmatical constant generation, message padding, hashing and passwords.
+This repository contains a complete Python implementation of the SHA-256 cryptographic hash function as specified in FIPS 180-4 (Secure Hash Standard). The assessment is divided into 5 problems covering logical functions, mathematical constant generation, message padding, hash computation, and password security analysis.
 
 ## Repository Structure
-
-- `README.md` Provides an overview of the project and installation & usage guide
-- `requirements.txt` List of Python dependencies provided
-- `.gitignore` List of file types to be ignored in repo
-- `problems.ipynb` Jupyter Notebook of problem implementations
+- `README.md` - Project overview and usage instructions
+- `requirements.txt` - Python dependencies
+- `.gitignore` - Git ignore rules
+- `problems.ipynb` - Jupyter Notebook containing all implementations and documentation
 
 ## Requirements
-
-- Python 3.9+ (for type hints)
+- Python 3.9+ (for modern type hints like `list[int]`)
 
 ### Dependencies
-
 Install required packages using:  
-`pip install -r requirements.txt`
+```bash
+pip install -r requirements.txt
+```
+
+Main dependencies: `numpy` for 32-bit unsigned integer operations and mathematical functions.
 
 ## How To Run
 
 ### Using Jupyter Notebook
-
-1. Clone this repo
-2. Install dependencies as above - `pip install -r requirements.txt`
+1. Clone this repository
+2. Install dependencies: `pip install -r requirements.txt`
 3. Launch Jupyter: `jupyter notebook`
 4. Open `problems.ipynb`
-5. Run cells top to bottom sequentially
+5. Run cells sequentially from top to bottom
+
+**Note:** Cells must be run in order as later problems depend on functions from earlier problems.
 
 ## Problems Implemented
 
 ### Problem 1: Binary Words & Operations
+Implementation of seven logical functions used in SHA-256 compression:
+- Parity, Choose (Ch), Majority (Maj)
+- Big Sigma 0 & 1 (Σ₀, Σ₁)
+- Small Sigma 0 & 1 (σ₀, σ₁)
+- Helper functions: ROTR (right rotation), SHR (right shift)
 
-Implementation of seven logical functions used in SHA-256, as defined in the Secure Hash Standard.
+All functions operate on 32-bit unsigned integers using bitwise operations.
 
-- Parity, Choose(ch), Majority(maj)
-- Big Sigma 0 & 1, Small Sigma 0 & 1
-- Helper functions: ROTR, SHR
-
-### Problem 2: Fractional Part of Cube Roots
-
-Generation of cubes roots of (x) prime numbers, first 64 used in SHA-256.  
-Compared against constants listed in SHA-256 Secure Hash Standard as proofing.
+### Problem 2: Fractional Parts of Cube Roots
+Generation of the 64 K constants used in SHA-256:
+- Implements prime number generation
+- Calculates cube roots of first 64 primes
+- Extracts first 32 bits of fractional parts
+- Displays results in hexadecimal
+- Verifies against FIPS 180-4 constants
 
 ### Problem 3: Padding
-
-Using a generation function to provide message padding according to SHA-256 specification.
+Message padding implementation using a Python generator function:
+- Accepts messages of arbitrary length
+- Applies SHA-256 padding scheme (append 1 bit, pad with zeros, append length)
+- Yields 512-bit (64-byte) blocks
+- Follows FIPS 180-4 Sections 5.1.1 and 5.2.1
 
 ### Problem 4: Hashes
-
-Implementation of SHA-256 hash computation using the compression function.  
-- Initial hash values derived from square roots of first 8 primes
-- Message schedule expansion (512 bits → 64 words)
+Complete SHA-256 hash computation:
+- Initial hash values (H⁽⁰⁾) from square roots of first 8 primes
+- Message schedule expansion (512-bit blocks → 64 32-bit words)
 - Compression function (64 rounds using Problem 1 functions and Problem 2 K constants)
-- Main `hash(current, block)` function processing message blocks
+- Main `hash(current, block)` function as specified in FIPS 180-4 Section 6.2.2
 
 ### Problem 5: Passwords
+Security analysis of password hashing:
+- Cracks three SHA-256 password hashes using rainbow tables
+- Verifies cracked passwords using the complete SHA-256 implementation from Problems 1-4
+- Analyzes why single-pass SHA-256 is inappropriate for password storage
+- Recommends security improvements: salting, key derivation functions (bcrypt, Argon2), and iteration counts
 
-[To be completed]
+## Implementation Notes
+
+- All functions include comprehensive docstrings following PEP 257
+- Type hints used throughout for clarity
+- Extensive inline comments explain complex operations
+- Code structured for readability and educational value
+- All implementations verified against FIPS 180-4 test vectors
 
 ## References
 
